@@ -6,7 +6,6 @@ from sys import argv
 
 def delete_if_exists(root, node):
     "Search for a node and delete it if exists."
-
     candidate = root.find(node)
     if candidate is not None:
         root.remove(candidate)
@@ -14,16 +13,14 @@ def delete_if_exists(root, node):
 
 def get_filename(path):
     "Get the filename only, no matter what the path is."
-
     head, tail = ntpath.split(path)
     filename = tail or ntpath.basename(head)
     return filename.split('.')[0]
 
 def clean_gpr(input_file):
     "Clean the GPR file."
-
-    # Open the file and read its contents
-    with open(input_file, 'r') as f:
+    # GPR files are encoded in Latin 1.
+    with open(input_file, 'r', encoding="latin1") as f:
         read_data = f.read()
 
     # Trim all junk and keep the xml part only
@@ -33,7 +30,7 @@ def clean_gpr(input_file):
 
     # Parse the xml with etree. I encode it in bytes to avoid
     # problems with the encoding declaration in the XML string.
-    root = etree.XML(xml_string.encode('latin1'))
+    root = etree.XML(xml_string.encode('utf8'))
 
     # The text of <CrystalExportType> must be 'PDF'
     root.find('CrystalExportType').text = 'PDF'
@@ -50,12 +47,10 @@ def clean_gpr(input_file):
     # <crDesignGUID> must be removed if present.
     delete_if_exists(root, 'crDesignGUID')
 
-    # Save the decoded and prettyfied XML to the output file.
+    # Save the prettyfied XML to the output file.
     xml_bytes = etree.tostring(root, pretty_print=True, encoding='utf8', xml_declaration=True)
-    xml_string = xml_bytes.decode('utf8')
-
-    with open('Output.txt', 'w') as f:
-        f.write(xml_string)
+    with open('Output.txt', 'wb') as f:
+        f.write(xml_bytes)
 
     print("The output was saved in the file Output.txt.")
 
