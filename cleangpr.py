@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
 import ntpath
-from lxml import etree
 from sys import argv
+from lxml import etree
 
 def delete_if_exists(root, node):
     "Search for a node and delete it if exists."
