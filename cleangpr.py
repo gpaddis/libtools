@@ -49,8 +49,9 @@ def clean_gpr(input_file):
 
     # Save the prettyfied XML to the output file.
     xml_bytes = etree.tostring(root, pretty_print=True, encoding='utf8', xml_declaration=True)
-    with open('Output.txt', 'wb') as f:
-        f.write(xml_bytes)
+    xml_string = xml_bytes.decode('utf8').replace('\n', '\r\n')
+    with open('Output.txt', 'w') as f:
+        f.write(xml_string)
 
     print("The output was saved in the file Output.txt.")
 
