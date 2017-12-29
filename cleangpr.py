@@ -4,6 +4,7 @@ import ntpath
 from sys import argv
 from lxml import etree
 
+
 def delete_if_exists(root, node):
     "Search for a node and delete it if exists."
     candidate = root.find(node)
@@ -54,6 +55,7 @@ def clean_gpr(input_file):
         f.write(xml_string)
 
     print("The output was saved in the file Output.txt.")
+
 
 if __name__ == '__main__':
     clean_gpr(argv[1])

@@ -69,6 +69,7 @@ def compare_lists(first_csv, second_csv):
         writer = csv.writer(output_csv, dialect='excel-tab')
         writer.writerows(missing)
 
+
 if __name__ == '__main__':
     script, first_csv, second_csv = argv
     compare_lists(first_csv, second_csv)
