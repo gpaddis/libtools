@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import csv
+import argparse
 from sys import argv
 import isbnlib
 
@@ -29,13 +30,22 @@ def collect_isbns(input_file):
 
     return collected_isbns
 
-def write_output(output_file, identifiers):
+def write_output(output_file, identifiers, flag):
     "Write the list of identifiers to the output file."
     writer = csv.writer(open(output_file, "w"), dialect=csv.excel_tab)
     for identifier in identifiers:
-        writer.writerow([identifier, 'ACTIVE']) # Get status from param
+        writer.writerow([identifier, flag]) # Get status from param
 
 
 if __name__ == '__main__':
-    identifiers = collect_isbns(argv[1]) # Use argparse instead!
-    write_output(argv[2], identifiers)
+    # Parse the arguments with argparse.
+    parser = argparse.ArgumentParser(
+        description="Extract all identifiers from a CSV file and prepare a list for the SFX dataloader.")
+    parser.add_argument('input_file', help='The CSV file to process')
+    parser.add_argument('output_file', help='The TSV file for the dataloader')
+    parser.add_argument('-f', dest='flag', required=False, default="ACTIVE",
+                        help='The flag for each entry (default: "ACTIVE")')
+    args = parser.parse_args()
+
+    identifiers = collect_isbns(args.input_file)
+    write_output(args.output_file, identifiers, args.flag)
