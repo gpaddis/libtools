@@ -48,9 +48,9 @@ def clean_gpr(input_file):
     # <crDesignGUID> must be removed if present.
     delete_if_exists(root, 'crDesignGUID')
 
-    # Save the prettyfied XML with windows newline chars to the output file.
+    # Save the prettyfied XML to the output file.
     xml_bytes = etree.tostring(root, pretty_print=True, encoding='utf8', xml_declaration=True)
-    xml_string = xml_bytes.decode('utf8').replace('\n', '\r\n')
+    xml_string = xml_bytes.decode('utf8')
     with open('Output.txt', 'w') as f:
         f.write(xml_string)
 
