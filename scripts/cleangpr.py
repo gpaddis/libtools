@@ -63,10 +63,10 @@ if __name__ == '__main__':
     # Parse the arguments with argparse.
     parser = argparse.ArgumentParser(description="Extract the XML configuration from a GPR file.")
     parser.add_argument('input_file', help='The raw GPR file to process')
-    parser.add_argument('-r', '--report_name', required=False,
-                        help='The <ReportFileName> without extension')
-    parser.add_argument('-o', '--output_file', required=False,
+    parser.add_argument('-o', dest='output_file', required=False,
                         help='The output file name with extension (default: Output.txt)')
+    parser.add_argument('-r', dest='report_name', required=False,
+                        help='The <ReportFileName> without extension')
     args = parser.parse_args()
 
     clean_gpr(args.input_file, args.output_file, args.report_name)
