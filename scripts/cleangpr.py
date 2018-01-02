@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import ntpath
+import argparse
 from sys import argv
 from lxml import etree
 
@@ -18,7 +19,7 @@ def get_filename(path):
     filename = tail or ntpath.basename(head)
     return filename.split('.')[0]
 
-def clean_gpr(input_file):
+def clean_gpr(input_file, output_file, report_name):
     "Clean the GPR file."
     # GPR files are encoded in Latin 1.
     with open(input_file, 'r', encoding="latin1") as f:
@@ -38,7 +39,7 @@ def clean_gpr(input_file):
 
     # Add <ReportFileName> element with text 'C:\Reports\{filename}.rpt'.
     report_file_name = etree.Element('ReportFileName')
-    filename = get_filename(input_file)
+    filename = report_name or get_filename(input_file)
     report_file_name.text = 'C:\\Reports\\' + filename + '.rpt'
     root.insert(0, report_file_name) # Insert the new node at the beginning
 
@@ -51,11 +52,21 @@ def clean_gpr(input_file):
     # Save the prettyfied XML to the output file.
     xml_bytes = etree.tostring(root, pretty_print=True, encoding='utf8', xml_declaration=True)
     xml_string = xml_bytes.decode('utf8')
-    with open('Output.txt', 'w') as f:
+    out = output_file or 'Output.txt'
+    with open(out, 'w') as f:
         f.write(xml_string)
 
-    print("The output was saved in the file Output.txt.")
+    print("The output was saved in the file {}.".format(out))
 
 
 if __name__ == '__main__':
-    clean_gpr(argv[1])
+    # Parse the arguments with argparse.
+    parser = argparse.ArgumentParser(description="Extract the XML configuration from a GPR file.")
+    parser.add_argument('input_file', help='The raw GPR file to process')
+    parser.add_argument('-r', '--report_name', required=False,
+                        help='The <ReportFileName> without extension')
+    parser.add_argument('-o', '--output_file', required=False,
+                        help='The output file name with extension (default: Output.txt)')
+    args = parser.parse_args()
+
+    clean_gpr(args.input_file, args.output_file, args.report_name)
