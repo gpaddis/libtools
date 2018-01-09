@@ -6,5 +6,5 @@ Some useful python scripts for librarians.
 - **cleangpr.py** - Extract the XML configuration from a GPR file (specific to the software [CAS](http://www.cas-crm.com/)).
 
 ### Requirements
-Python 2.7 (3.6 ir required for cleangpr.py only).
+**Python 3.6**.
 External lbraries are specified in the file requirements.txt.
