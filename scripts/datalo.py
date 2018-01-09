@@ -3,7 +3,7 @@
 import csv
 import argparse
 from sys import argv
-import isbnlib
+import lib.identifiers as ids
 
 """
 Collect all identifiers from a csv file and output a list of unique
@@ -11,22 +11,12 @@ identifiers with an activation status for each one. The list will
 be uploaded to the SFX Dataloader to mass update target portfolios.
 """
 
-def extract_isbns(row):
-    "Extract all canonical isbns from a row in the CSV file."
-    all_isbns = []
-    for field in row:
-        isbns = isbnlib.get_isbnlike(field)
-        for isbn in isbns:
-            all_isbns.append(isbnlib.canonical(isbn))
-
-    return list(set(all_isbns))  # Deduplicate the ISBNs
-
 def collect_isbns(input_file):
     "Collect all ISBNs from the input file."
-    reader = csv.reader(open(input_file, 'r')) # let the user define the delimiter
+    reader = csv.reader(open(input_file, 'r', encoding="utf-8")) # let the user define the delimiter
     collected_isbns = []
     for row in reader:
-        collected_isbns += extract_isbns(row)
+        collected_isbns += ids.extract_isbns(row)
 
     return collected_isbns
 
