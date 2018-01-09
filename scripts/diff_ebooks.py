@@ -51,21 +51,21 @@ def compare_lists(first_csv, second_csv):
                 missing_count += 1
 
     print("I have found {} titles in the second list and saved them in matches.csv.".format(matches_count))
-    with open("matches.csv", 'w', encoding="utf-8") as output_csv:
+    with open("matches.csv", 'w', encoding="utf-8", newline='') as output_csv:
         writer = csv.writer(output_csv, dialect='excel-tab')
         writer.writerows(matches)
 
     print("However, {} titles are missing from the second list. I saved these in missing.csv.".format(missing_count))
-    with open("missing.csv", 'w', encoding="utf-8") as output_csv:
+    with open("missing.csv", 'w', encoding="utf-8", newline='') as output_csv:
         writer = csv.writer(output_csv, dialect='excel-tab')
         writer.writerows(missing)
 
 
 if __name__ == '__main__':
     # Parse the arguments with argparse.
-    parser = argparse.ArgumentParser(
-        description="Compare two CSV files for matching & missing eBook titles.")
+    parser = argparse.ArgumentParser(description="Compare two CSV files for matching & missing eBook titles.")
     parser.add_argument('first_csv', help='The first eBook title list')
     parser.add_argument('second_csv', help='The second eBook title list')
     args = parser.parse_args()
+
     compare_lists(args.first_csv, args.second_csv)
