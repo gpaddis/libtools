@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import csv
+import argparse
 from sys import argv
 import lib.identifiers as ids
 
@@ -61,5 +62,10 @@ def compare_lists(first_csv, second_csv):
 
 
 if __name__ == '__main__':
-    script, first_csv, second_csv = argv
-    compare_lists(first_csv, second_csv)
+    # Parse the arguments with argparse.
+    parser = argparse.ArgumentParser(
+        description="Compare two CSV files for matching & missing eBook titles.")
+    parser.add_argument('first_csv', help='The first eBook title list')
+    parser.add_argument('second_csv', help='The second eBook title list')
+    args = parser.parse_args()
+    compare_lists(args.first_csv, args.second_csv)
