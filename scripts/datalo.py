@@ -2,7 +2,6 @@
 
 import csv
 import argparse
-from sys import argv
 import lib.identifiers as ids
 
 """

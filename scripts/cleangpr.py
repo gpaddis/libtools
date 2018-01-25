@@ -2,7 +2,6 @@
 
 import ntpath
 import argparse
-from sys import argv
 from lxml import etree
 
 
@@ -60,7 +59,6 @@ def clean_gpr(input_file, output_file, report_name):
 
 
 if __name__ == '__main__':
-    # Parse the arguments with argparse.
     parser = argparse.ArgumentParser(description="Extract the XML configuration from a GPR file.")
     parser.add_argument('input_file', help='The raw GPR file to process')
     parser.add_argument('-o', dest='output_file', required=False,
