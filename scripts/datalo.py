@@ -22,7 +22,8 @@ def collect_isbns(input_file):
 
 def write_output(output_file, identifiers, flag):
     "Write the list of identifiers to the output file."
-    writer = csv.writer(open(output_file, "w"), dialect=csv.excel_tab)
+    writer = csv.writer(
+        open(output_file, "w", encoding="utf-8", newline=''), dialect=csv.excel_tab)
     for identifier in identifiers:
         writer.writerow([identifier, flag]) # Get status from param
 
