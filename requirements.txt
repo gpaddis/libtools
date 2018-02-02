@@ -1,2 +1,3 @@
 lxml
 isbnlib
+beautifulsoup4
