@@ -28,27 +28,26 @@ def scrape_opac(url):
         return count
 
 def count_books():
-    "Return the number of print books in the OPAC catalog."
+    "Return the number of print book titles."
     return scrape_opac(
         'https://vzlbs2.gbv.de/DB=69/SET=3/TTL=1/CMD?ACT=SRCHA&IKT=1016&SRT=YOP&TRM=bar+4*'
     )
 
 def count_ebooks():
-    "Return the number of eBooks in the OPAC catalog."
+    "Return the number of eBook titles."
     return scrape_opac(
         'https://vzlbs2.gbv.de/DB=69.1/SET=21/TTL=20991/CMD?ACT=SRCH&IKT=31&SRT=YOP&TRM=20*+19*'
     )
 
 def count_journals():
     """
-    Fetch the A-Z Journal Finder page with a doped query that displays all available publications. The media
+    Fetch the A-Z Journal Finder page with a query that displays all available publications. The media
     count is fetched from the row "Total number of journals: X" above the search results.
     """
-    az_url = "http://sfx.gbv.de/sfx_kueh/az/default?param_type_save=browseLetterGroup"
-    az_url += "&param_letter_group_value=0%2C1%2C2%2C3%2C4%2C5%2C6%2C7%2C8%2C9,"
-    az_url += "A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z,0%2C1%2C2%2C3%2C4%2C5%2C6%2C7%2C8%2C9%2CA%2CB%"
-    az_url += "2CC%2CD%2CE%2CF%2CG%2CH%2CI%2CJ%2CK%2CL%2CM%2CN%2CO%2CP%2CQ%2CR%2CS%2CT%2CU%2CV%2CW%2CX%2CY"
-    az_url += "&param_letter_group_script_value=Latin"
+    az_url = "http://sfx.gbv.de/sfx_kueh/az/default?"
+    az_url += "&param_perform_save=locate"
+    az_url += "&param_pattern_save=*"
+    az_url += "&param_textSearchType_value=startsWith"
 
     bsObj = fetch(az_url)
     if bsObj == None:
@@ -61,8 +60,7 @@ def count_journals():
 def count_databases():
     """
     Count the number of databases listed on the library website.
-    The count is based on the heading elements that compose
-    the accordion.
+    The count is based on the heading elements that compose the accordion.
     """
     bsObj = fetch(
         'https://www.the-klu.org/faculty-research/library/library-collection/research-databases/')
