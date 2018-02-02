@@ -84,7 +84,7 @@ if __name__ == '__main__':
 
     print("\n\n")
     print(title)
-    print("[+] Number of Print Books:", count_books())
-    print("[+] Number of eBooks:", count_ebooks())
-    print("[+] Number of eJournals:", count_journals())
-    print("[+] Number of Databases:", count_databases())
+    print("[+] Print Books (Titles):", count_books())
+    print("[+] eBooks:", count_ebooks())
+    print("[+] eJournals:", count_journals())
+    print("[+] Databases:", count_databases())
