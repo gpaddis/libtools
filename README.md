@@ -12,10 +12,12 @@ Extract all identifiers from a title list and prepare a list for the SFX dataloa
 Convert a CSV file to TSV.
 
 ### cleangpr.py
-Extract the XML configuration from a GPR file (specific to the software [CAS](http://www.cas-crm.com/)).
+(Specific to the software [CAS](http://www.cas-crm.com/))
+Extract the XML configuration from a GPR file.
 
 ### countmedia.py
-(Specific to the KLU Library) Count the list of available media divided by category.
+(Specific to the KLU Library)
+Count the number of media in the library collection divided by category.
 
 ## Requirements
 **Python 3.6** is required to run the scripts.
