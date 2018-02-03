@@ -80,8 +80,8 @@ if __name__ == '__main__':
     title += "===========================================================================\n"
     title += "Display the count of all media available in the KLU Library collection.\n"
 
-    print("\n\n")
     print(title)
+
     print("[+] Print Books (Titles):", count_books())
     print("[+] eBooks:", count_ebooks())
     print("[+] eJournals:", count_journals())
