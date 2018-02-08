@@ -14,9 +14,9 @@ def fetch(url):
 
     return BeautifulSoup(html, 'lxml')
 
-def scrape_opac(url):
+def fetch_opac_titles(url):
     """
-    Count the number of search results in the OPAC catalog.
+    Count the number of titles in the search results in the OPAC catalog.
     The count is based on number of hits close to the page buttons.
     """
     bsObj = fetch(url)
@@ -27,16 +27,39 @@ def scrape_opac(url):
         count = pages.split()[-1]
         return count
 
-def count_books():
+def fetch_opac_copies_count(url):
+    """
+    Count the number of matches in the search results in the OPAC catalog.
+    The count is based on number of hits on the bottom of the page, under "Count".
+    """
+    bsObj = fetch(url)
+    if bsObj == None:
+        return "Unable to connect to the website."
+    else:
+        return bsObj.find('td', {'class': 'specrd'}).get_text()
+
+def count_book_titles():
     "Return the number of print book titles."
-    return scrape_opac(
+    return fetch_opac_titles(
+        'https://vzlbs2.gbv.de/DB=69/SET=3/TTL=1/CMD?ACT=SRCHA&IKT=1016&SRT=YOP&TRM=bar+4*'
+    )
+
+def count_book_copies():
+    "Return the number of print book copies."
+    return fetch_opac_copies_count(
         'https://vzlbs2.gbv.de/DB=69/SET=3/TTL=1/CMD?ACT=SRCHA&IKT=1016&SRT=YOP&TRM=bar+4*'
     )
 
 def count_ebooks():
     "Return the number of eBook titles."
-    return scrape_opac(
+    return fetch_opac_titles(
         'https://vzlbs2.gbv.de/DB=69.1/SET=21/TTL=20991/CMD?ACT=SRCH&IKT=31&SRT=YOP&TRM=20*+19*'
+    )
+
+def count_theses():
+    "Return the number of Theses."
+    return fetch_opac_titles(
+        'https://vzlbs2.gbv.de/DB=69.2/CMD?ACT=SRCHA&IKT=1016&SRT=YOP&TRM=bar+4*'
     )
 
 def count_journals():
@@ -82,7 +105,17 @@ if __name__ == '__main__':
 
     print(title)
 
-    print("[+] Print Books (Titles):", count_books())
-    print("[+] eBooks:", count_ebooks())
-    print("[+] eJournals:", count_journals())
-    print("[+] Databases:", count_databases())
+    print("Scanning the holdings...")
+    theses = count_theses()
+    book_titles = int(count_book_titles()) - int(theses)
+    book_copies = int(count_book_copies()) - int(theses)
+    ebooks = count_ebooks()
+    journals = count_journals()
+    databases = count_databases()
+
+    print("[+] Print Books, DVDs (Titles):", book_titles)
+    print("[+] Print Books, DVDs (Copies):", book_copies)
+    print("[+] Theses:", theses)
+    print("[+] eBooks:", ebooks)
+    print("[+] eJournals:", journals)
+    print("[+] Databases:", databases)
