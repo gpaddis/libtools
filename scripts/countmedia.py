@@ -114,7 +114,7 @@ if __name__ == '__main__':
     databases = count_databases()
 
     print("[+] Print Books, DVDs (Titles):", book_titles)
-    print("[+] Print Books, DVDs (Copies):", book_copies)
+    print("[+] Print Books, DVDs (Media):", book_copies)
     print("[+] Theses:", theses)
     print("[+] eBooks:", ebooks)
     print("[+] eJournals:", journals)
