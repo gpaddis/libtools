@@ -1,3 +1,4 @@
+# Libtools
 Some useful python scripts for librarians.
 To install the scripts, clone the repo and add the `scripts/` directory to your PATH.
 
